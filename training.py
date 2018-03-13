@@ -4,7 +4,7 @@ import tensorflow as tf
 import input_data
 import model
 
-N_CLASSES=30
+N_CLASSES=2
 IMG_H=256
 IMG_W=256
 BATCH_SIZE=16
@@ -13,8 +13,8 @@ MAX_STEP=15000
 learning_rate=0.0001
 
 def run_training():
-    train_dir = 'E:\yyz\python\Pig_rec/train/'
-    logs_train_dir='E:\yyz\python\Pig_rec/'
+    train_dir = 'G:/python/cats vs dogs/data/train/train/'
+    logs_train_dir='G:/python/cats vs dogs/data/train/log/'
     train,train_label=input_data.get_files(train_dir)
     # print(len(train))
     # print(len(train_label))
