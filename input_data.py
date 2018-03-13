@@ -35,7 +35,7 @@ import os
 
 # you need to change this to your data directory
 #train_dir = '/home/kevin/tensorflow/cats_vs_dogs/data/train/'
-train_dir = 'E:\yyz\python\Pig_rec/train/'
+train_dir = 'G:/python/cats vs dogs/data/train/train/'
 
 
 def get_files(file_dir):#查找数据存放路径
@@ -45,89 +45,30 @@ def get_files(file_dir):#查找数据存放路径
     Returns:
         list of images and labels
     '''
-
-    pig1 = []
-    label1 = []
-    pig2 = []
-    label2 = []
-    pig3 = []
-    label3 = []
-    pig4 = []
-    label4 = []
-    pig5 = []
-    label5 = []
-    pig6 = []
-    label6 = []
-    pig7 = []
-    label7 = []
-    pig8 = []
-    label8 = []
-    pig9 = []
-    label9 = []
-    pig10 = []
-    label10 = []
-    pig11 = []
-    label11 = []
-    pig12 = []
-    label12 = []
-    pig13 = []
-    label13 = []
-    pig14 = []
-    label14 = []
-    pig15 = []
-    label15 = []
-    pig16 = []
-    label16 = []
-    pig17 = []
-    label17 = []
-    pig18 = []
-    label18 = []
-    pig19 = []
-    label19 = []
-    pig20 = []
-    label20 = []
-    pig21 = []
-    label21 = []
-    pig22 = []
-    label22 = []
-    pig23 = []
-    label23 = []
-    pig24 = []
-    label24 = []
-    pig25 = []
-    label25 = []
-    pig26 = []
-    label26 = []
-    pig27 = []
-    label27 = []
-    pig28 = []
-    label28 = []
-    pig29 = []
-    label29 = []
-    pig30 = []
-    label30 = []
-    pig=[pig1,pig2,pig3,pig4,pig5,pig6,pig7,pig8,pig9,pig10,pig11,pig12,pig13,pig14,pig15,pig16,pig17,pig18,pig19,pig20,pig21,pig22,pig23,pig24,pig25,pig26,pig27,pig28,pig29,pig30]
-    label=[label1,label2,label3,label4,label5,label6,label7,label8,label9,label10,label11,label12,label13,label14,label15,label16,label17,label18,label19,label20,label21,label22,label23,label24,label25,label26,label27,label28,label29,label30]
+    cats = []
+    label_cats = []
+    dogs = []
+    label_dogs = []
     for file in os.listdir(file_dir):
         name = file.split(sep='.')
-        pig[int(name[1])-1].append(file_dir + file)
-        label[int(name[1])-1].append(name[1])
+        if name[0] == 'cat':
+            cats.append(file_dir + file)
+            label_cats.append(0)
+        else:
+            dogs.append(file_dir + file)
+            label_dogs.append(1)
+    print('There are %d cats\nThere are %d dogs' %(len(cats), len(dogs)))
 
-    # print('There are %d cats\nThere are %d dogs' %(len(cats), len(dogs)))
-    pig_list=[]
-    label_list = []
-    for i in range(30):
-        pig_list=np.hstack((pig_list,pig[i]))
-        label_list = np.hstack((label_list, label[i]))
-    print(pig_list)
-    print(label_list)
-    temp = np.array([pig_list, label_list])
+    image_list = np.hstack((cats, dogs))#hstack堆叠数据
+    label_list = np.hstack((label_cats, label_dogs))
+
+    temp = np.array([image_list, label_list])
     temp = temp.transpose()
     np.random.shuffle(temp)
 
     image_list = list(temp[:, 0])
     label_list = list(temp[:, 1])
-    label_list = [int(i)-1 for i in label_list]
+    label_list = [int(i) for i in label_list]
     return image_list, label_list
 
 
@@ -155,7 +96,6 @@ def get_batch(image, label, image_W, image_H, batch_size, capacity):
 
     label = input_queue[1]
     image_contents = tf.read_file(input_queue[0])
-
     image = tf.image.decode_jpeg(image_contents, channels=3)
 
     ######################################
@@ -191,24 +131,25 @@ def get_batch(image, label, image_W, image_H, batch_size, capacity):
 # When training the model, DO comment the following codes
 
 
-# testing
 
-# import matplotlib.pyplot as plt
-# #
-# BATCH_SIZE = 2
-# CAPACITY = 256
-# IMG_W = 50
-# IMG_H = 50
+
+#import matplotlib.pyplot as plt
 #
-# train_dir = 'E:\yyz\python\Pig_rec/train/'
+#BATCH_SIZE = 2
+#CAPACITY = 256
+#IMG_W = 208
+#IMG_H = 208
 #
-# image_list, label_list = get_files(train_dir)
-# image_batch, label_batch = get_batch(image_list, label_list, IMG_W, IMG_H, BATCH_SIZE, CAPACITY)
+#train_dir = '/home/kevin/tensorflow/cats_vs_dogs/data/train/'
 #
-# with tf.Session() as sess:
+#image_list, label_list = get_files(train_dir)
+#image_batch, label_batch = get_batch(image_list, label_list, IMG_W, IMG_H, BATCH_SIZE, CAPACITY)
+#
+#with tf.Session() as sess:
 #    i = 0
 #    coord = tf.train.Coordinator()
 #    threads = tf.train.start_queue_runners(coord=coord)
+#
 #    try:
 #        while not coord.should_stop() and i<1:
 #
@@ -226,7 +167,9 @@ def get_batch(image, label, image_W, image_H, batch_size, capacity):
 #    finally:
 #        coord.request_stop()
 #    coord.join(threads)
-# #%%
+
+
+#%%
 
 
 
